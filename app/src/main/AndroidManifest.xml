@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkingAppITS"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.auth.api.fallback_service"
+            android:value="@xml/auth_service" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+
+
+            android:value="5b3ce3597851110001cf6248e69999fd169282e423fa488175a946222f1e7a739c1acee98e24e75f" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

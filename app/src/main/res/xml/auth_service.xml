@@ -1,0 +1,4 @@
+<resources>
+    <!-- Thay YOUR_SERVER_CLIENT_ID bằng ID thực tế từ Firebase -->
+    <string name="default_web_client_id" translatable="false">551250061512-kaimsf8i5kmvmvjk9vegaec74hs5kenl.apps.googleusercontent.com</string>
+</resources>
