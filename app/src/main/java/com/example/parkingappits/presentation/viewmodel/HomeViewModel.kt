@@ -1,22 +1,15 @@
 package com.example.parkingappits.presentation.viewmodel
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.location.Location
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.parkingappits.data.model.BaiDo
 import com.example.parkingappits.data.model.Reservation
 import com.example.parkingappits.data.model.User
 import com.example.parkingappits.data.repository.ParkingRepository
-import com.example.parkingappits.data.repository.UserRepository
 import com.example.parkingappits.utils.LocationHelper
 import com.example.parkingappits.utils.OpenRouteServiceHelper
 import com.google.firebase.auth.FirebaseAuth
@@ -30,9 +23,6 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.contracts.contract
-
-//import kotlin.time.toDuration
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -68,17 +58,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _currentReservation = MutableStateFlow<Reservation?>(null)
     val currentReservation: StateFlow<Reservation?> = _currentReservation
-//    class HomeViewModelFactory(
-//        private val context: Context
-//    ) : ViewModelProvider.Factory {
-//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//            if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-//                @Suppress("UNCHECKED_CAST")
-//                return HomeViewModel(context) as T
-//            }
-//            throw IllegalArgumentException("Unknown ViewModel class")
-//        }
-//    }
 
 
     fun formatTime(timestamp: Long): String {
@@ -128,27 +107,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         return FirebaseAuth.getInstance().currentUser?.uid ?: ""
     }
 
-
-
-//    fun getCurrentUserVehicleNumber(context: Context): String {
-//        val sharedPref = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-//        return sharedPref.getString("vehicle_number", "") ?: ""
-//    }
-
-
-
     fun getParkingNameById(id: String): String {
         return _parkingLots.value.find { it.id == id }?.name ?: "Không rõ"
     }
-
-//    fun getCurrentUserId(): String {
-//        return FirebaseAuth.getInstance().currentUser?.uid ?: ""
-//    }
-
-//    fun getCurrentUserVehicleNumber(): String {
-//        // Ví dụ: Lấy từ SharedPreferences hoặc Firestore user profile
-//        return "79A-12345" // Thay bằng cách lấy thật
-//    }
 
     fun cancelReservation(onSuccess: () -> Unit, onFailure: () -> Unit) {
         val reservation = _currentReservation.value ?: return
@@ -179,41 +140,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Hàm kiểm tra
-    fun checkUserReservation(userId: String, vehicleNumber: String) {
-        FirebaseFirestore.getInstance()
-            .collection("reservations")
-            .whereEqualTo("userId", userId)
-            .whereEqualTo("vehicleNumber", vehicleNumber)
-            .get()
-            .addOnSuccessListener { result ->
-                if (!result.isEmpty) {
-                    val reservation = result.documents[0].toObject(Reservation::class.java)
-                    _currentReservation.value = reservation
-                }
-            }
-    }
-
-
-    /**
-     * Kiểm tra xem người dùng đã đăng nhập hay chưa
-     */
     fun isUserLoggedIn(): Boolean {
         return FirebaseAuth.getInstance().currentUser != null
     }
 
-    /**
-     * Khởi tạo lấy vị trí khi đã đăng nhập
-     */
     init {
         if (isUserLoggedIn()) {
             getCurrentLocation()
         }
     }
 
-    /**
-     * Hàm lấy vị trí hiện tại của thiết bị
-     */
     private fun getCurrentLocation() {
         viewModelScope.launch {
             try {
@@ -240,9 +176,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * Làm mới danh sách bãi đỗ dựa trên vị trí hiện tại
-     */
     private fun refreshParkingLots(location: Location) {
         viewModelScope.launch {
             isRefreshing.value = true
@@ -265,9 +198,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * Hàm tính khoảng cách giữa vị trí hiện tại và bãi đỗ (bất đồng bộ)
-     */
     private suspend fun getDistanceToParkingLot(currentLocation: Location, baiDo: BaiDo): Double {
         return try {
             withContext(Dispatchers.IO) {
@@ -296,9 +226,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * Đặt lại danh sách bãi đỗ khi người dùng kéo để làm mới
-     */
     fun onRefresh() {
         viewModelScope.launch {
             isRefreshing.value = true
@@ -310,10 +237,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-    /**
-     * Tính khoảng cách giữa vị trí hiện tại và bãi đỗ (bất đồng bộ)
-     */
     fun calculateDistance(
         context: Context, lat1: Double, lng1: Double, lat2: Double, lng2: Double,
         onResult: (String) -> Unit

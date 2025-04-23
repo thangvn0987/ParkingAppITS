@@ -21,8 +21,6 @@ import com.example.parkingappits.presentation.viewmodel.HomeViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.delay
-import java.text.SimpleDateFormat
-import java.util.*
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable

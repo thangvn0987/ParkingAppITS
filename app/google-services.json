@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "551250061512-16g591g5r9m4rta27tmb392o4tp42hmv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkingappits",
+            "certificate_hash": "cca48dc0cb38a3599865557e8eda4ae9505af7da"
+          }
+        },
+        {
+          "client_id": "551250061512-ie5i4jct4ol27bkcb3fae5qv9e5srct4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkingappits",
+            "certificate_hash": "2872bec0281959d30f65946d0fac3daf2593434c"
+          }
+        },
+        {
           "client_id": "551250061512-kaimsf8i5kmvmvjk9vegaec74hs5kenl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

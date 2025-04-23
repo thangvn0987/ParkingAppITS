@@ -16,15 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.parkingappits.data.model.User
 import com.example.parkingappits.data.repository.UserRepository
 import com.example.parkingappits.presentation.viewmodel.HomeViewModel
 import com.example.parkingappits.presentation.viewmodel.ParkingDetailViewModel
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModel
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModelFactory
-import com.example.parkingappits.presentation.viewmodel.viewModelFactory
-
-//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 @Composable
 fun ParkingDetailScreen(

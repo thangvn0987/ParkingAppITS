@@ -1,12 +1,7 @@
 package com.example.parkingappits.presentation.viewmodel
 
-//package com.smartparking.viewmodel
-
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-//import com.example.parkingappits.ParkingDetail
 import com.example.parkingappits.data.model.ParkingDetail
 import com.example.parkingappits.data.model.Reservation
 import com.example.parkingappits.data.model.User
@@ -21,8 +16,6 @@ class ParkingDetailViewModel : ViewModel() {
     private val _parkingDetail = MutableStateFlow<ParkingDetail?>(null)
     val parkingDetail = _parkingDetail.asStateFlow()
 
-    //user
-    //bienso
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> get() = _user
 
@@ -93,10 +86,6 @@ class ParkingDetailViewModel : ViewModel() {
                 onError(e.message ?: "Không thể kiểm tra đặt chỗ.")
             }
     }
-
-
-
-
 
     fun loadParkingDetail(parkingId: String) {
         val db = FirebaseFirestore.getInstance()

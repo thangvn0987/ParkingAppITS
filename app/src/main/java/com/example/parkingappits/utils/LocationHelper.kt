@@ -8,10 +8,6 @@ import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.tasks.await
 
 object LocationHelper {
-
-    /**
-     * Lấy vị trí thiết bị hiện tại
-     */
     suspend fun getDeviceLocation(context: Context): Location? {
         return try {
             val fusedLocationClient: FusedLocationProviderClient =
@@ -38,9 +34,6 @@ object LocationHelper {
         }
     }
 
-    /**
-     * Kiểm tra quyền vị trí
-     */
     fun checkLocationPermission(context: Context): Boolean {
         val permission = android.Manifest.permission.ACCESS_FINE_LOCATION
         return androidx.core.content.ContextCompat.checkSelfPermission(context, permission) ==

@@ -4,12 +4,6 @@ import android.content.Context
 import android.util.Log
 
 object ApiKeyHelper {
-
-    /**
-     * Lấy API Key từ AndroidManifest.xml
-     * @param context: Context của ứng dụng
-     * @return API Key dưới dạng String
-     */
     fun getApiKey(context: Context): String {
         return try {
             val ai = context.packageManager.getApplicationInfo(

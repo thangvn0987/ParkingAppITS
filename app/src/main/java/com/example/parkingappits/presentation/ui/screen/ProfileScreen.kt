@@ -26,7 +26,6 @@ import com.example.parkingappits.data.model.User
 import com.example.parkingappits.data.repository.UserRepository
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModel
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModelFactory
-//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -174,18 +173,6 @@ fun ShowProfileScreen(user: User, onLogout: () -> Unit, viewModel: ProfileViewMo
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
-
-//        Button(
-//            onClick = {
-//                viewModel.saveVehicleNumber(context, vehicleNumber)
-//                Toast.makeText(context, "Đã lưu biển số xe!", Toast.LENGTH_SHORT).show()
-//            },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(8.dp)
-//        ) {
-//            Text("Lưu biển số xe")
-//        }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onLogout) {
             Text("Đăng xuất")

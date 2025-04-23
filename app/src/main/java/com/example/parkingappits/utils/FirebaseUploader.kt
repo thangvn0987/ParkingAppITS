@@ -1,26 +1,7 @@
 package com.example.parkingappits.utils
 
-
 import com.example.parkingappits.data.model.ParkingDetail
 import com.google.firebase.firestore.FirebaseFirestore
-
-//data class ParkingDetail(
-//    val id: String,
-//    val name: String,
-//    val location: String,
-//    val latitude: Double,
-//    val longitude: Double,
-//    val totalSlots: Int,
-//    val availableSlots: Int,
-//    val pricePerHour: Double,
-//    val isOpen: Boolean,
-//    val openingHours: String,
-//    val contactNumber: String,
-//    val rating: Float,
-//    val amenities: List<String>,
-//    val images: List<String>,
-//    val description: String
-//)
 
 fun uploadParkingData(parking: ParkingDetail) {
     val db = FirebaseFirestore.getInstance()
