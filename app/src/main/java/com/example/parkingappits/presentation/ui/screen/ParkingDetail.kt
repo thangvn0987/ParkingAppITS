@@ -1,5 +1,6 @@
 package com.example.parkingappits.presentation.ui.screen
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,12 +17,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.parkingappits.data.repository.UserRepository
 import com.example.parkingappits.presentation.viewmodel.HomeViewModel
 import com.example.parkingappits.presentation.viewmodel.ParkingDetailViewModel
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModel
 import com.example.parkingappits.presentation.viewmodel.ProfileViewModelFactory
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ParkingDetailScreen(
     navController: NavController,
@@ -35,6 +40,8 @@ fun ParkingDetailScreen(
     val factory = remember { ProfileViewModelFactory(repository) }
     val viewModelprofile: ProfileViewModel = viewModel(factory = factory)
     val parkingDetail by viewModel.parkingDetail.collectAsState()
+    val imageUrls by viewModel.imageUrls.collectAsState()
+
 
     //nguoidung
     //bienso
@@ -45,6 +52,7 @@ fun ParkingDetailScreen(
     LaunchedEffect(parkingId) {
         viewModel.loadParkingDetail(parkingId)
         viewModelprofile.loadUser()
+        viewModel.fetchParkingImages(parkingId)
     }
 
     Scaffold(
@@ -68,10 +76,10 @@ fun ParkingDetailScreen(
 
                         onClick = { /*   - Chưa triển khai */
                             viewModel.checkAndConfirmReservationWithSlotUpdate(
-                                userId = user!!.id,        // ID người dùng từ hệ thống
-                                parkingId = parkingId,  // ID bãi đỗ xe đang chọn
-                                slotNumber = 1,            // Chỗ đỗ được chọn
-                                vehicleNumber = vehicleNumber, // Biển số xe từ form nhập
+                                userId = user!!.id,
+                                parkingId = parkingId,
+                                slotNumber = 1,
+                                vehicleNumber = vehicleNumber,
                                 onAlreadyReserved = {
                                     viewModelhome.loadUserReservation()
                                     Toast.makeText(
@@ -118,17 +126,26 @@ fun ParkingDetailScreen(
                             .fillMaxWidth()
                             .height(250.dp)
                     ) {
-                        Image(
-                            painter = painterResource(id = android.R.drawable.ic_menu_camera),
-                            contentDescription = "Parking Image",
-                            modifier = Modifier.fillMaxSize()
-                        )
-                        Text(
-                            text = "Lướt ảnh",
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(8.dp)
-                        )
+                        if (viewModel.imageUrls.value.isNotEmpty()) {
+                            LazyRow(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+
+                                items(imageUrls) { imageUrl ->
+                                    Image(
+                                        painter = rememberAsyncImagePainter(model = imageUrl),
+                                        contentDescription = "Parking Image",
+                                        modifier = Modifier
+                                            .width(300.dp)
+                                            .height(200.dp)
+                                    )
+                                }
+                            }
+                        }
+
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))

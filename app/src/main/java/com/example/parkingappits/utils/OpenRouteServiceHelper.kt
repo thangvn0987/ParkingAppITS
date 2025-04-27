@@ -18,7 +18,7 @@ object OpenRouteServiceHelper {
     ) {
         val apiKey = ApiKeyHelper.getApiKey(context)
         val url = "$BASE_URL?api_key=$apiKey&start=$startLng,$startLat&end=$endLng,$endLat"
-
+//https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e69999fd169282e423fa488175a946222f1e7a739c1acee98e24e75f&start=106.771004,10.851617&end=106.663972,10.850519
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
 

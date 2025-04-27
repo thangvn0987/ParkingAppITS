@@ -22,6 +22,26 @@ class ParkingDetailViewModel : ViewModel() {
     private val _vehicleNumber = MutableStateFlow("")
     val vehicleNumber: StateFlow<String> get() = _vehicleNumber
 
+    private val _imageUrls = MutableStateFlow<List<String>>(emptyList())
+    val imageUrls: StateFlow<List<String>> = _imageUrls
+
+    fun fetchParkingImages(parkingId: String) {
+        viewModelScope.launch {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("parkings")
+                .document(parkingId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val urls = document.get("images") as? List<String> ?: emptyList()
+                        _imageUrls.value = urls
+                    }
+                }
+                .addOnFailureListener {
+                    _imageUrls.value = emptyList() // Xử lý khi lỗi
+                }
+        }
+    }
 
     fun checkAndConfirmReservationWithSlotUpdate(
         userId: String,
@@ -46,17 +66,17 @@ class ParkingDetailViewModel : ViewModel() {
                     // B2: Tiến hành transaction để cập nhật availableSlots và tạo đặt chỗ
                     db.runTransaction { transaction ->
 
-                        val parkingRef = db.collection("parkings").document(parkingId)
+                        val parkingRef = db.collection("parking_lots").document("parking_lot_id00$parkingId")
                         val parkingSnapshot = transaction.get(parkingRef)
 
-                        val currentSlots = parkingSnapshot.getLong("availableSlots") ?: 0L
+                        val currentSlots = parkingSnapshot.getString("available_slots")?.toLong() ?: 0L
 
                         if (currentSlots <= 0) {
                             throw Exception("Bãi đỗ đã hết chỗ.")
                         }
 
                         // Giảm 1 chỗ trống
-                        transaction.update(parkingRef, "availableSlots", currentSlots - 1)
+                        transaction.update(parkingRef, "available_slots", (currentSlots - 1).toString())
 
                         // Tạo đặt chỗ mới
                         val reservationId = db.collection("reservations").document().id

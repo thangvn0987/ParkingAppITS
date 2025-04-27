@@ -63,10 +63,6 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
                 actions = {
                     if (reservation != null) {
                         TextButton(onClick = {
-
-
-
-
                         }) {
                             Text("🗺️ Bản đồ", color = Color.White)
                         }

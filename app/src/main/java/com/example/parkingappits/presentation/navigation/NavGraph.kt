@@ -29,6 +29,7 @@ sealed class Screen(val route: String) {
                 ProfileScreen(navController = navController)
             }
 
+//            ParkinDetailScreen
             composable(
                 route = "parking_detail/{parkingId}",
                 arguments = listOf(navArgument("parkingId") { type = NavType.StringType })
